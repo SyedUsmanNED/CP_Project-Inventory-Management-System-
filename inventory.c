@@ -38,7 +38,7 @@ void Add_items(void) {
     scanf(" %s", item.name);
     printf("Enter Product Quantity: \n");
     scanf("%d", &item.quantity);
-    printf("Enter Product Price: \n");
+    printf("Enter Product Price(IN PKR): \n");
     scanf("%f", &item.price);
 
     fp = fopen("inventory.txt", "a");
@@ -84,7 +84,7 @@ void Search_items(void){
         if (item.id == s_id)
         {
             printf("\n%-8s %-20s %-12s %-10s\n\n", "ID", "Name", "Quantity", "Price");
-            printf("%-8d %-20s %-12d %-10.2f\n",
+            printf("%-8d %-20s %-12d Rs. %-10.2f\n",
                    item.id, item.name, item.quantity, item.price);
             found = 1;
             break;
@@ -129,7 +129,7 @@ void Update_items(void){
             scanf("%s", item.name);
             printf("Enter new quantity: ");
             scanf("%d", &item.quantity);
-            printf("Enter new price: ");
+            printf("Enter new price(IN PKR): ");
             scanf("%f", &item.price);
         }
         fprintf(temp, "%d | %s | %d | %.2f\n",
@@ -225,7 +225,7 @@ void Display_items(void) {
     printf("\n%-8s %-20s %-12s %-10s\n\n", "ID", "Name", "Quantity", "Price");
     while (fscanf(fp, "%d | %s | %d | %f",
                   &item.id, item.name, &item.quantity, &item.price) == 4) {
-        printf("%-8d %-20s %-12d %-10.2f\n",
+        printf("%-8d %-20s %-12d Rs. %-10.2f\n",
                item.id, item.name, item.quantity, item.price);
     }
 
