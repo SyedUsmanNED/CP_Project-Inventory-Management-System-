@@ -154,8 +154,8 @@ void Update_items(void){
 /* TO DELETE AN ALREADY EXISTING PRODUCT USING ITS ID */
 void Delete_items(void) {
     FILE *fp, *temp;
-    char line[256], input[64];
-    int d_id = 0, id, found = 0, got_id = 0;
+    char line[256];
+    int d_id, id, found = 0;
 
     fp = fopen("inventory.txt", "r");
     if (fp == NULL) {
@@ -164,18 +164,7 @@ void Delete_items(void) {
     }
 
     printf("Enter ID to delete: ");
-    while (fgets(input, sizeof(input), stdin) != NULL) {
-        if (sscanf(input, "%d", &d_id) == 1) {
-            got_id = 1;
-            break;
-        }
-        if (strspn(input, " \t\r\n") != strlen(input)) {
-            break;   // real text that isn't a number
-        }
-        // blank line (leftover newline): keep waiting for input
-    }
-
-    if (!got_id) {
+    if (scanf("%d", &d_id) != 1) {
         printf("Invalid input!\n");
         fclose(fp);
         return;
@@ -190,9 +179,9 @@ void Delete_items(void) {
 
     while (fgets(line, sizeof(line), fp) != NULL) {
         if (sscanf(line, "%d", &id) == 1 && id == d_id) {
-            found = 1;               // skip this line
+            found = 1; // skip matching item
         } else {
-            fputs(line, temp);       // copy every other line unchanged
+            fputs(line, temp); // keep all other lines
         }
     }
 
@@ -204,14 +193,11 @@ void Delete_items(void) {
         rename("temp.txt", "inventory.txt");
         printf("Product deleted successfully!\n");
     } else {
-        remove("temp.txt");          // original stays untouched
-        printf("The id you have entered does not exist!\n");
+        remove("temp.txt");
+        printf("ID not found!\n");
     }
-
-    printf("Press Enter to continue...");
     getchar();
 }
-
 /* TO DISPLAY THE ENTIRE PRODUCT LIST WITH ALL DETAILS*/
 void Display_items(void) {
     Items item;
